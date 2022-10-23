@@ -1,5 +1,6 @@
 package org.sopt.official.feature.search
 
+import android.widget.EditText
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -27,7 +28,7 @@ fun SearchScreen() {
 
 @Composable
 private fun SearchBar() {
-
+//    EditText
 }
 
 @Composable
@@ -45,12 +46,23 @@ private fun Notice(notice: Int) {
         backgroundColor = SoptTheme.colors.background, modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
         val isNewNotice = listOf<Boolean>(true, false, false, true, false, true, true, true, true, true)[notice]
-        NoticeContent(notice, isNewNotice)
+        NoticeContent(notice, isNewNotice ){ getIcon()}
     }
 }
 
 @Composable
-private fun NoticeContent(notice: Int, isNewNotice: Boolean) {
+private fun getIcon() = Icon(
+    modifier = Modifier
+        .size(24.dp)
+        .padding(end = 4.dp),
+    imageVector = Icons.Filled.Check,
+    contentDescription = "ad",
+    tint = SoptTheme.colors.primary,
+)
+
+
+@Composable
+private fun NoticeContent(notice: Int, isNewNotice: Boolean, icon : @Composable () -> Unit) {
 //    val isNewNotice by rememberSaveable { mutableStateOf(true) }
     Row(
         modifier = Modifier
@@ -68,14 +80,15 @@ private fun NoticeContent(notice: Int, isNewNotice: Boolean) {
                 verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 4.dp)
             ) {
                 if (isNewNotice) {
-                    Icon(
-                        modifier = Modifier
-                            .size(24.dp)
-                            .padding(end = 4.dp),
-                        imageVector = Icons.Filled.Check,
-                        contentDescription = "ad",
-                        tint = SoptTheme.colors.primary,
-                    )
+                    icon()
+//                    Icon(
+//                        modifier = Modifier
+//                            .size(24.dp)
+//                            .padding(end = 4.dp),
+//                        imageVector = Icons.Filled.Check,
+//                        contentDescription = "ad",
+//                        tint = SoptTheme.colors.primary,
+//                    )
                 }
                 Text(
                     text = "31th SOPT 공지 $notice",
