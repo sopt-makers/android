@@ -1,21 +1,31 @@
 package org.sopt.official.feature.search
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.official.style.SoptTheme
@@ -35,7 +45,6 @@ fun SearchScreen() {
         SearchBar()
     }
 }
-
 
 @OptIn(ExperimentalComposeUiApi::class) // for LocalSoftwareKeyboardController
 @Composable
@@ -57,20 +66,68 @@ private fun SearchBar() {
     }
 
     TopAppBar(
-        title = { Text(text = "검색어를 입력해주세요 ") },
-        navigationIcon = {
-            IconButton(onClick = { /*TODO onNavigateBack */ }) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    modifier = Modifier,
-                    contentDescription = "back button"
-                )
-            }
-        },
-        actions = {/*TODO serach */ },
-        backgroundColor = SoptTheme.colors.background
+        title = { Text(text = "검색어를 입력해주세요 ") }, navigationIcon = {
+        IconButton(onClick = { /*TODO onNavigateBack */ }) {
+            Icon(
+                imageVector = Icons.Filled.ArrowBack, modifier = Modifier, contentDescription = "back button"
+            )
+        }
+    }, actions = {
+        searchBarTextField(
+            searchText = "searchText",
+            focusRequester = focusRequester,
+            showClearButton = showClearButton,
+            keyboardController = keyboardController
+        )
+    }, backgroundColor = SoptTheme.colors.background
     )
 }
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun searchBarTextField(
+    searchText: String,
+    placeholderText: String = "검색어를 입력해주세요",
+    onSearchTextChanged: (String) -> Unit = {},
+    onClearClick: () -> Unit = {},
+    focusRequester: FocusRequester,
+    showClearButton: Boolean,
+    keyboardController: SoftwareKeyboardController?
+) = OutlinedTextField(
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 2.dp)
+        .onFocusChanged { state -> /*TODO showclearbutton */ }
+        .focusRequester(focusRequester),
+    value = searchText,
+    onValueChange = onSearchTextChanged,
+    placeholder = {
+        Text(text = placeholderText)
+    },
+    colors = TextFieldDefaults.textFieldColors(
+        focusedIndicatorColor = SoptTheme.colors.primary,
+        unfocusedIndicatorColor = SoptTheme.colors.onSurface70,
+        backgroundColor = SoptTheme.colors.background,
+        cursorColor = SoptTheme.colors.primary,
+    ),
+    trailingIcon = {
+        AnimatedVisibility(
+            visible = showClearButton, enter = fadeIn(), exit = fadeOut()
+        ) {
+            IconButton(onClick = { onClearClick() }) {
+                Icon(
+                    imageVector = Icons.Filled.Close, contentDescription = "clear"
+                )
+            }
+        }
+    },
+    maxLines = 1,
+    singleLine = true,
+    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+    keyboardActions = KeyboardActions(onDone = {
+        keyboardController?.hide()
+    }),
+)
 
 /** BeforeSearch */
 @Composable
@@ -92,7 +149,6 @@ private fun SearchErrorResult() {
 private fun SearchResult() {
 }
 
-
 @Composable
 private fun Notices(notices: List<Int> = List(10) { it }) {
     LazyColumn(modifier = Modifier.padding(vertical = 8.dp)) {
@@ -108,12 +164,12 @@ private fun Notice(notice: Int) {
         backgroundColor = SoptTheme.colors.background, modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
         val isNewNotice = listOf(true, false, false, true, false, true, true, true, true, true)[notice]
-        NoticeContent(notice, isNewNotice) { getIcon() }
+        NoticeContent(notice, isNewNotice) { GetIcon() }
     }
 }
 
 @Composable
-private fun getIcon() = Icon(
+private fun GetIcon() = Icon(
     modifier = Modifier
         .size(24.dp)
         .padding(end = 4.dp),
@@ -121,7 +177,6 @@ private fun getIcon() = Icon(
     contentDescription = "ad",
     tint = SoptTheme.colors.primary,
 )
-
 
 @Composable
 private fun NoticeContent(notice: Int, isNewNotice: Boolean, icon: @Composable () -> Unit) {
