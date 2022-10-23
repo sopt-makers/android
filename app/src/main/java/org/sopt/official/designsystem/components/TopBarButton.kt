@@ -1,4 +1,4 @@
-package org.sopt.official.feature.common
+package org.sopt.official.designsystem.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -10,7 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.official.R
-import org.sopt.official.style.SoptTheme
+import org.sopt.official.designsystem.style.SoptTheme
 
 @Composable
 fun TopBarButton() {

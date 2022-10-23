@@ -17,8 +17,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.sopt.official.style.Blue500
-import org.sopt.official.style.SoptTheme
+import org.sopt.official.designsystem.style.Blue500
+import org.sopt.official.designsystem.style.SoptTheme
 
 @Composable
 fun SplashScreen() {

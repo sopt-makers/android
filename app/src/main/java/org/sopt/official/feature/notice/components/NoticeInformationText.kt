@@ -1,9 +1,9 @@
-package org.sopt.official.feature.common
+package org.sopt.official.feature.notice.components
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import org.sopt.official.style.SoptTheme
+import org.sopt.official.designsystem.style.SoptTheme
 
 @Composable
 fun NoticeInformationText(
