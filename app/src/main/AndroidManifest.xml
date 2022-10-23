@@ -13,6 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SOPT"
         tools:targetApi="31">
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
@@ -28,6 +36,7 @@
             android:theme="@style/Theme.SOPT">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
