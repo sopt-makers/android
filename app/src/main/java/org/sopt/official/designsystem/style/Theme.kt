@@ -178,6 +178,7 @@ fun SoptTheme(
     darkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
+//    TODO darkTheme 분기
     val colors = soptLightColors()
     val typography = SoptTypography()
     ProvideSoptColorsAndTypography(colors, typography) {
